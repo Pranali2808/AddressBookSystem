@@ -12,11 +12,12 @@ namespace AddressBookSystem
 
         public static void AddContact()
         {
-            Console.WriteLine(" You have to enter your details here. \n");
-            int contactsNum = 1;
+            Console.Write("How many contacts do you want to add ? : ");
+            int contactsNum = Convert.ToInt32(Console.ReadLine());
             while (contactsNum > 0)
             {
                 PersonsDetails person = new PersonsDetails();
+
 
                 Console.Write(" Enter your First name : ");
                 person.Firstname = Console.ReadLine();
@@ -28,11 +29,11 @@ namespace AddressBookSystem
                 person.City = Console.ReadLine();
                 Console.Write(" Enter your State : ");
                 person.State = Console.ReadLine();
-                Console.Write(" Enter your Zip code : ");
+                Console.Write(" Enter your Zip Code : ");
                 person.ZipCode = Console.ReadLine();
-                Console.Write(" Enter your Phone number : ");
+                Console.Write(" Enter your Phone Number : ");
                 person.PhoneNumber = Console.ReadLine();
-                Console.Write(" Enter your Email ID : ");
+                Console.Write(" Enter your Email-ID : ");
                 person.Email = Console.ReadLine();
 
                 addressBook.Add(person);
@@ -50,7 +51,7 @@ namespace AddressBookSystem
                 {
                     if (nameKey.ToLower() == contact.Firstname.ToLower())
                     {
-                        Console.WriteLine(" First name-->{0}", contact.Firstname);
+                        Console.WriteLine("\n First name-->{0}", contact.Firstname);
                         Console.WriteLine(" Last name-->{0}", contact.LastName);
                         Console.WriteLine(" Address-->{0}", contact.Address);
                         Console.WriteLine(" City-->{0}", contact.City);
@@ -58,19 +59,19 @@ namespace AddressBookSystem
                         Console.WriteLine(" Zip code-->{0}", contact.ZipCode);
                         Console.WriteLine(" Phone number-->{0}", contact.PhoneNumber);
                         Console.WriteLine(" E-Mail ID-->{0}", contact.Email);
-                        break;
                     }
                     else
                     {
-                        Console.WriteLine("\n Contact of the person {0} does not exist", nameKey);
+                        Console.WriteLine(" Contact of the person {0} does not exist", nameKey);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Your address book is empty");
+                Console.WriteLine(" Your address book is empty");
             }
         }
+
         public static void Delete()
         {
             Console.Write("\n Enter the first name of the person whose contact you want to delete from the addressbook : ");
