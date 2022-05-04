@@ -16,6 +16,7 @@ namespace AddressBookSystem
             
             AddressBook.AddContact();
             AddressBook.Display();
+            AddressBook.Edit();
             Console.ReadLine();
         }
     }
