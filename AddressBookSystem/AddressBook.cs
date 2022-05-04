@@ -71,6 +71,40 @@ namespace AddressBookSystem
                 Console.WriteLine("Your address book is empty");
             }
         }
+        public static void Delete()
+        {
+            Console.Write("\n Enter the first name of the person whose contact you want to delete from the addressbook : ");
+            string deleteKey = Console.ReadLine();
+            int flag = 0;
+            if (addressBook.Count > 0)
+            {
+                foreach (PersonsDetails person in addressBook)
+                {
+                    if (deleteKey.ToLower() == person.Firstname.ToLower())
+                    {
+                        Console.Write("\n Do You Want To Delete This Contact press Y : ");
+                        char ch = Convert.ToChar(Console.ReadLine());
+
+                        if (ch == 'Y' || ch == 'y')
+                        {
+                            flag = 1;
+                            addressBook.Remove(person);
+                            Console.WriteLine(" Contact is Deleted.");
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Your address book is empty");
+            }
+
+            if (flag == 0)
+            {
+                Console.WriteLine("contact of the person {0} does not exist", deleteKey);
+            }
+        }
 
         public static void Edit()
         {
