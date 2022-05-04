@@ -8,6 +8,14 @@ namespace AddressBookSystem
 {
     class PersonsDetails
     {
+        public PersonsDetails(string fname, string lname, string address, string city, string state, string phone, string zip, string email)
+        {
+            Address = address;
+            City = city;
+            State = state;
+            Email = email;
+        }
+
         public string Firstname { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }

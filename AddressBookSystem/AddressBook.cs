@@ -2,181 +2,224 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AddressBookSystem
 {
     class AddressBook
     {
-        public static List<PersonsDetails> addressBook = new List<PersonsDetails>();
-
-        public static void AddContact()
+        public static bool PhoneNumberValidation(String phone)
         {
-            Console.Write("How many contacts do you want to add ? : ");
-            int contactsNum = Convert.ToInt32(Console.ReadLine());
-            while (contactsNum > 0)
-            {
-                PersonsDetails person = new PersonsDetails();
-
-
-                Console.Write(" Enter your First name : ");
-                person.Firstname = Console.ReadLine();
-                Console.Write(" Enter your Last name : ");
-                person.LastName = Console.ReadLine();
-                Console.Write(" Enter your Address : ");
-                person.Address = Console.ReadLine();
-                Console.Write(" Enter your City : ");
-                person.City = Console.ReadLine();
-                Console.Write(" Enter your State : ");
-                person.State = Console.ReadLine();
-                Console.Write(" Enter your Zip Code : ");
-                person.ZipCode = Console.ReadLine();
-                Console.Write(" Enter your Phone Number : ");
-                person.PhoneNumber = Console.ReadLine();
-                Console.Write(" Enter your Email-ID : ");
-                person.Email = Console.ReadLine();
-
-                addressBook.Add(person);
-                Console.WriteLine("\n {0}'s contact succesfully added", person.Firstname);
-                contactsNum--;
-            }
+            String PPattern = @"^\+?\d{0,2}\-?\d{4,5}\-?\d{5,6}"; //Define Phone Number Pattern
+            Regex Pregex = new Regex(PPattern); //create object of the Regex class (its Regesx predefine class)
+            return Pregex.IsMatch(phone);
         }
-        public static void Display()
+        public static bool EmailValidation(String email)
         {
-            if (addressBook.Count > 0)
+            String Epattern = @"^[a-z]+([-+*.]?[0-9a-z])*@[a-z0-9]+\.(\.?[a-z]{2,}){1,2}$"; //Define Email Pattern
+            Regex eregex = new Regex(Epattern); //create object of the Regex class (its Regesx predefine class)
+            return eregex.IsMatch(email);
+
+        }
+        public static bool ZipValidation(String zip)  //Zip Method
+        {
+            String ZPattern = "^[0-9]{6}(?:-[0-9]{6})?$";  //Define Zip Code Pattern
+            Regex Zregex = new Regex(ZPattern); //create object of the Regex class (its Regesx predefine class)
+            return Zregex.IsMatch(zip);
+        }
+
+         List<PersonsDetails> list = new List<PersonsDetails>(); //create a list of Person objects
+
+        String fname = null; //empty string
+        String lname, address, city, state, phone, zip, email; //Declaring (Creating) Variables
+
+        public PersonsDetails PersonsDetails { get; private set; }
+
+        public void AddRecord() //Addidng Record method
+        {
+            int i = 0;
+            while (i == 0) // Checking name exixt or not
             {
-                Console.Write("\n Enter the name of the person to get all the contact details : ");
-                string nameKey = Console.ReadLine();
-                foreach (PersonsDetails contact in addressBook)
+                Console.Write("Enter First Name:- "); //take input user First name
+                this.fname = Console.ReadLine();   //Store input fname            
+                if (CheckExist(fname))  //Checking for duplicates firstname or user input are same or not
                 {
-                    if (nameKey.ToLower() == contact.Firstname.ToLower())
-                    {
-                        Console.WriteLine("\n First name-->{0}", contact.Firstname);
-                        Console.WriteLine(" Last name-->{0}", contact.LastName);
-                        Console.WriteLine(" Address-->{0}", contact.Address);
-                        Console.WriteLine(" City-->{0}", contact.City);
-                        Console.WriteLine(" State-->{0}", contact.State);
-                        Console.WriteLine(" Zip code-->{0}", contact.ZipCode);
-                        Console.WriteLine(" Phone number-->{0}", contact.PhoneNumber);
-                        Console.WriteLine(" E-Mail ID-->{0}", contact.Email);
-                    }
-                    else
-                    {
-                        Console.WriteLine(" Contact of the person {0} does not exist", nameKey);
-                    }
+                    Console.WriteLine($"Record with name { fname } Already Exist\n Please Enter New name:-");//print name Already Exist
                 }
+                else
+                {
+                    i = 1;
+                }
+            }
+            Console.Write("Enter Last Name:- "); //Take input user
+            lname = Console.ReadLine();            //Store input for lname
+            Console.Write("Enter Address:- "); //Take input user
+            address = Console.ReadLine();       //Store input for address
+            Console.Write("Enter City:- "); //Take input user
+            city = Console.ReadLine();        //Store input for city
+            Console.Write("Enter State:- "); //Take input user
+            state = Console.ReadLine();        //Store input for state
+
+            Console.Write("Enter Zip:- "); //Take input user
+            zip = Console.ReadLine();         //Store input for zip
+            while (!ZipValidation(zip))
+            {
+                Console.Write(zip + " is Invalid Zip Code \nPlease Enter Valid Zip:- ");
+                zip = Console.ReadLine();
+            }
+
+            Console.Write("Enter Phone Number:- "); //Take input user
+            phone = Console.ReadLine();           //Store input for phone
+            while (!PhoneNumberValidation(phone))
+            {
+                Console.Write(phone + " is Invalid Phone Number \nPlease Enter Valid Number:- ");
+                phone = Console.ReadLine();
+            }
+
+            Console.Write("Enter Email:- ");  //Take input user
+            email = Console.ReadLine();           //Store input for email
+            while (!EmailValidation(email))
+            {
+                Console.Write(email + " is Invalid Email \nPlease Enter Valid Email:- ");
+                email = Console.ReadLine();
+            }
+
+            PersonsDetails person = new PersonsDetails(fname, lname, address, city, state, phone, zip, email);
+            list.Add(person);   //adding list data person
+        }
+        public void DisplayRecord()  //Display Record Method
+        {
+            if (list.Count == 0) //Check list ==0
+            {
+                Console.WriteLine(" No Records Found"); //print record not found
             }
             else
             {
-                Console.WriteLine(" Your address book is empty");
-            }
-        }
-
-        public static void Delete()
-        {
-            Console.Write("\n Enter the first name of the person whose contact you want to delete from the addressbook : ");
-            string deleteKey = Console.ReadLine();
-            int flag = 0;
-            if (addressBook.Count > 0)
-            {
-                foreach (PersonsDetails person in addressBook)
+                foreach (PersonsDetails k in list)
                 {
-                    if (deleteKey.ToLower() == person.Firstname.ToLower())
-                    {
-                        Console.Write("\n Do You Want To Delete This Contact press Y : ");
-                        char ch = Convert.ToChar(Console.ReadLine());
-
-                        if (ch == 'Y' || ch == 'y')
-                        {
-                            flag = 1;
-                            addressBook.Remove(person);
-                            Console.WriteLine(" Contact is Deleted.");
-                            break;
-                        }
-                    }
+                    Console.WriteLine(k);
                 }
             }
-            else
-            {
-                Console.WriteLine("Your address book is empty");
-            }
-
-            if (flag == 0)
-            {
-                Console.WriteLine("contact of the person {0} does not exist", deleteKey);
-            }
         }
-
-        public static void Edit()
+        public void EditRecord(String fname) // EditRecord Method 
         {
-            Console.Write("\n Enter the first name of the person whom you want to edit the details : ");
-            string editKey = Console.ReadLine();
-            if (addressBook.Count > 0)
+            for (int k = 0; k < list.Count; k++) // Value  present or not
             {
-                foreach (PersonsDetails persons in addressBook)
+                if (list[k].Firstname.Equals(fname))
                 {
-                    if (editKey.ToLower() == persons.Firstname.ToLower())
+                    PersonsDetails person = list[k];
+                    Console.WriteLine(person);  //Print person
+
+                    while (k == 0)  // k==0 to edite contact
                     {
-                        Console.WriteLine("\n Enter the key number for editing the details." +
-                            "\n1.First Name " +
-                            "\n2.Last Name " +
-                            "\n3.Address " +
-                            "\n4.City " +
-                            "\n5.State " +
-                            "\n6.Zipcode " +
-                            "\n7.Phone Number " +
-                            "\n8.Email ID");
-                        Console.Write(" Enter your option : ");
-                        int key = Convert.ToInt32(Console.ReadLine());
-                        switch (key)
+                        Console.WriteLine("What Do You Want to edit Contact Details \n"
+                                + "1. Address\n"
+                                + "2. city\n"
+                                + "3. State\n"
+                                + "4. Zip Code\n"
+                                + "5. Phone\n"
+                                + "6. Email\n"
+                                + "7. Save And Exit\n");
+
+                        int choice = Convert.ToInt32(Console.ReadLine());  //convert string and store choice
+                        switch (choice)  //case 
                         {
                             case 1:
-                                Console.Write("Enter the new First Name : ");
-                                persons.Firstname = Console.ReadLine();
+                                Console.Write("Enter new Address:-  ");  //Take input user
+                                String address = Console.ReadLine();   //store address veriable
+                                person.Address = address;  //store class of person address data
                                 break;
                             case 2:
-                                Console.WriteLine("Enter the new Last name");
-                                persons.LastName = Console.ReadLine();
+                                Console.Write("Enter new City:- "); //Take input user
+                                String city = Console.ReadLine();  //store city veriable
+                                person.City = city;                 //store class of person city data
                                 break;
                             case 3:
-                                Console.Write(" Enter the New Address : ");
-                                persons.Address = Console.ReadLine();
+                                Console.Write("Enter new State:- "); //Take input user
+                                String state = Console.ReadLine();   //store state veriable
+                                person.State = state;               //store class of person state data
                                 break;
                             case 4:
-                                Console.Write(" Enter the New City : ");
-                                persons.City = Console.ReadLine();
+                                Console.Write("Enter new Phone:- "); //Take input user
+                                String phone = Console.ReadLine();   //store phone veriable
+                                while (!PhoneNumberValidation(phone))
+                                {
+                                    Console.Write(phone + " is Invalid Phone Number \nPlease Enter Valid Number:- ");
+                                    phone = Console.ReadLine();
+                                }
+                                person.PhoneNumber = phone;                 //store class of person phone data
                                 break;
                             case 5:
-                                Console.Write(" Enter the New State : ");
-                                persons.State = Console.ReadLine();
+                                Console.Write("Enter new Zip Code:- "); //Take input user
+                                String zip = Console.ReadLine();        //store zip veriable
+                                while (!ZipValidation(zip))
+                                {
+                                    Console.Write(zip + " is Invalid Zip Code \nPlease Enter Valid Zip:- ");
+                                    zip = Console.ReadLine();
+                                }
+                                person.ZipCode = zip;                       //store class of person zip data
                                 break;
                             case 6:
-                                Console.Write("Enter the New Zip Code : ");
-                                persons.ZipCode = Console.ReadLine();
+                                Console.Write("Enter new Email:- "); //Take input user
+                                String email = Console.ReadLine();
+                                while (!EmailValidation(email))
+                                {
+                                    Console.Write(email + " is Invalid Email \nPlease Enter Valid Email:- ");
+                                    email = Console.ReadLine();
+                                }//store email veriable
+                                person.Email = email;                       //store class of person Email data
                                 break;
                             case 7:
-                                Console.Write(" Enter the New Phone Number : ");
-                                persons.PhoneNumber = Console.ReadLine();
-                                break;
-                            case 8:
-                                Console.Write(" Enter the New EMail-ID : ");
-                                persons.Email = Console.ReadLine();
+                                k = 1;
                                 break;
                             default:
-                                Console.WriteLine(" Please enter a valid input");
-                                Edit();
+                                Console.WriteLine("Please Enter Valid Option");
                                 break;
                         }
-                        Console.WriteLine(" {0}'s contact has been successfully added", editKey);
-                        break;
+                        foreach (PersonsDetails t in list) //automate the reading  t of person of class
+                        {
+                            Console.WriteLine(t);//print list
+                        }
                     }
                 }
-                //Console.WriteLine(" Contact of the person {0} does not exist", editKey);
+                else
+                {
+                    Console.WriteLine($"{fname} Name of Record Not Found "); //Print Record not found
+                }
             }
-            else
+        }
+        public void DeleteRecord(string firstName)  //Delete Record Method
+        {
+            for (int i = 0; i < list.Count; i++)   //Check record present or not
             {
-                Console.WriteLine(" Your address book is empty");
+                if (list[i].Firstname.Equals(firstName))  //Check list of record and user inpute same or not
+                {
+                    list.Remove(this.PersonsDetails); //Remove Record from Person class
+                    Console.WriteLine($"{firstName} Name of Record Delete Successfully"); //Print Record Delete
+                }
+                else
+                {
+                    Console.WriteLine($"{firstName} Name of Record Not Found "); //Print Record not found
+                }
             }
+        }
+        public bool CheckExist(string fname)  //Check exist method
+        {
+            int flag = 0;
+            foreach (PersonsDetails person in list) //Check list of class person
+            {
+                if (person.Firstname.Equals(fname)) //check first name and user input are equal or not
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 1)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
