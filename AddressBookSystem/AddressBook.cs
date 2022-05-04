@@ -28,15 +28,13 @@ namespace AddressBookSystem
             Regex Zregex = new Regex(ZPattern); //create object of the Regex class (its Regesx predefine class)
             return Zregex.IsMatch(zip);
         }
-
          List<PersonsDetails> list = new List<PersonsDetails>(); //create a list of Person objects
 
         String fname = null; //empty string
         String lname, address, city, state, phone, zip, email; //Declaring (Creating) Variables
+        private readonly PersonsDetails PersonsDetails;
 
-        public PersonsDetails PersonsDetails { get; private set; }
-
-        public void AddRecord() //Addidng Record method
+        public void AddRecord() //Addidng new person without duplication
         {
             int i = 0;
             while (i == 0) // Checking name exixt or not
@@ -106,7 +104,7 @@ namespace AddressBookSystem
         {
             for (int k = 0; k < list.Count; k++) // Value  present or not
             {
-                if (list[k].Firstname.Equals(fname))
+                if (list[k].FirstName.Equals(fname))
                 {
                     PersonsDetails person = list[k];
                     Console.WriteLine(person);  //Print person
@@ -148,7 +146,7 @@ namespace AddressBookSystem
                                     Console.Write(phone + " is Invalid Phone Number \nPlease Enter Valid Number:- ");
                                     phone = Console.ReadLine();
                                 }
-                                person.PhoneNumber = phone;                 //store class of person phone data
+                                person.PhoneNo = phone;                 //store class of person phone data
                                 break;
                             case 5:
                                 Console.Write("Enter new Zip Code:- "); //Take input user
@@ -193,7 +191,7 @@ namespace AddressBookSystem
         {
             for (int i = 0; i < list.Count; i++)   //Check record present or not
             {
-                if (list[i].Firstname.Equals(firstName))  //Check list of record and user inpute same or not
+                if (list[i].FirstName.Equals(firstName))  //Check list of record and user inpute same or not
                 {
                     list.Remove(this.PersonsDetails); //Remove Record from Person class
                     Console.WriteLine($"{firstName} Name of Record Delete Successfully"); //Print Record Delete
@@ -209,7 +207,7 @@ namespace AddressBookSystem
             int flag = 0;
             foreach (PersonsDetails person in list) //Check list of class person
             {
-                if (person.Firstname.Equals(fname)) //check first name and user input are equal or not
+                if (person.FirstName.Equals(fname)) //check first name and user input are equal or not
                 {
                     flag = 1;
                     break;
