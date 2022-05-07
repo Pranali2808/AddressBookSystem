@@ -69,44 +69,41 @@ namespace AddressBookSystem
             }
         }
 
-        public static void ReadAddressBookUsingStreamReader()
+        public static void CsvSerialise()
         {
-            Console.WriteLine("The contact List using StreamReader method ");
-
-            string path = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\AddressBookWriter.txt";
-            using (StreamReader se = File.OpenText(path))
+            try
             {
-                string s = " ";
-                while ((s = se.ReadLine()) != null)
-                {
-                    Console.WriteLine(s);
-                }
+                string csvPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\DataOperation.csv";
+                var writer = File.AppendText(csvPath);
 
-            }
-        }
 
-        public static void WriteAddressBookUsingStreamWriter()
-        {
-            string path = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\AddressBookWriter.txt";
-            using (StreamWriter se = File.AppendText(path))
-            {
                 foreach (KeyValuePair<string, List<PersonsDetails>> item in addressBook)
                 {
                     foreach (var items in item.Value)
                     {
-                        se.WriteLine("First Name -" + items.FirstName);
-                        se.WriteLine("Last Name -" + items.LastName);
-                        se.WriteLine("Address -" + items.Address);
-                        se.WriteLine("Phone Number - " + items.PhoneNumber);
-                        se.WriteLine("Email ID -" + items.Email);
-                        se.WriteLine("City -" + items.City);
-                        se.WriteLine("State -" + items.State);
-                        se.WriteLine("ZIP Code -" + items.ZipCode);
+                        writer.WriteLine(items.FirstName + ", " + items.LastName + ", " + items.PhoneNumber + ", " + items.Email + ", " + items.City + ", " + items.State + ", " + items.ZipCode + ".");
+
                     }
-                    se.WriteLine("--------------------------------------------------------------");
+                    writer.Close();
                 }
-                se.Close();
-                Console.WriteLine(File.ReadAllText(path));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        public static void CsvDeserialise()
+        {
+            string csvPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\DataOperation.csv";
+            using (var reader = new StreamReader(csvPath))
+
+            {
+                string s = " ";
+                while ((s = reader.ReadLine()) != null)
+                {
+                    Console.WriteLine(s);
+                }
             }
         }
     }
