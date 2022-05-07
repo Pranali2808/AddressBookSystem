@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AddressBookSystem
 {
-    /* UC9:- Ability to view Persons by City or State
+    /* UC10:- Ability to view Persons by City or State
              - Maintain Dictionary of City and Person as well as State and Person
              - Use Collection Library to maintain
      */
@@ -24,7 +24,7 @@ namespace AddressBookSystem
             {
                 Console.WriteLine("**** Welcome To Address Book System ****");
                 Console.WriteLine("\n1.Add Address Book System\n2.Show Address Books System Names\n3.Search Person in City or State" +
-                    "\n4.View Persons by city or States\n5.Exit "); //Print menu
+                    "\n4.Get Number of Persons by city or States\n5.Exit "); //Print menu
 
                 Console.Write("Enter Your Choice:- "); //Take input
                 int choice1 = Convert.ToInt32(Console.ReadLine()); //take input user and store choice1 veriable
@@ -117,7 +117,7 @@ namespace AddressBookSystem
                         edit.SearchRecordCityOrState();
                         break;
                     case 4:
-                        edit.ViewByCityOrStateName();
+                        AddressBook.CountByCityOrStateName();
                         break;
                     default:
                         loop1 = false;
@@ -129,4 +129,3 @@ namespace AddressBookSystem
     }
 }
 
-  
