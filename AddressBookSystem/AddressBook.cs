@@ -29,13 +29,13 @@ namespace AddressBookSystem
             return Zregex.IsMatch(zip);
         }
 
-       
+        private readonly PersonsDetails person;
 
         List<PersonsDetails> list = new List<PersonsDetails>(); //create a list of Person objects
 
         String fname = null; //empty string
         String lname, address, city, state, phone, zip, email; //Declaring (Creating) Variables
-        private readonly PersonsDetails person;
+
 
         public void AddRecord() //Addidng new person without duplication
         {
@@ -64,27 +64,13 @@ namespace AddressBookSystem
 
             Console.Write("Enter Zip:- ");    //Take input user
             zip = Console.ReadLine();         //Store input for zip
-            //while (!ZipValidation(zip))
-            //{
-            //    Console.Write(zip + " is Invalid Zip Code \nPlease Enter Valid Zip:- ");
-            //    zip = Console.ReadLine();
-            //}
 
             Console.Write("Enter Phone Number:- "); //Take input user
             phone = Console.ReadLine();           //Store input for phone
-            //while (!PhoneNumberValidation(phone))
-            //{
-            //    Console.Write(phone + " is Invalid Phone Number \nPlease Enter Valid Number:- ");
-            //    phone = Console.ReadLine();
-            //}
 
             Console.Write("Enter Email:- ");  //Take input user
             email = Console.ReadLine();           //Store input for email
-            //while (!EmailValidation(email))
-            //{
-            //    Console.Write(email + " is Invalid Email \nPlease Enter Valid Email:- ");
-            //    email = Console.ReadLine();
-            //}
+
 
             PersonsDetails person = new PersonsDetails(fname, lname, address, city, state, phone, zip, email);
             list.Add(person);   //adding list data person
@@ -275,5 +261,77 @@ namespace AddressBookSystem
             }
         }
 
+        private static IEnumerable<KeyValuePair<string, List<PersonsDetails>>> City;
+        private static IEnumerable<KeyValuePair<string, List<PersonsDetails>>> State;
+
+        public void ViewByCityOrStateName()
+        {
+            Console.WriteLine("Please select your option: \n 1 :  To view all contacts by city, \n 2 : To view all contacts by state.");
+            int choice = Convert.ToInt32(Console.ReadLine());
+
+            if (choice == 1)
+            {
+                int cityCount = 0;
+                if (cityCount != 0)
+                {
+                    foreach (KeyValuePair<string, List<PersonsDetails>> item in City)
+                    {
+                        Console.WriteLine("\n Following are the Person details residing in the city -" + item.Key);
+                        foreach (var items in item.Value)
+                        {
+                            //Printing added details
+                            Console.WriteLine("First Name : " + items.FirstName);
+                            Console.WriteLine("Last Name : " + items.LastName);
+                            Console.WriteLine("Address : " + items.Address);
+                            Console.WriteLine("Phone Number : " + items.PhoneNo);
+                            Console.WriteLine("Email ID : " + items.Email);
+                            Console.WriteLine("City : " + items.City);
+                            Console.WriteLine("State : " + items.State);
+                            Console.WriteLine("ZIP code : " + items.ZipCode);
+                        }
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nCurrently no entries are inserted.");
+                }
+            }
+            else if (choice == 2)
+            {
+                int stateCount = 0;
+                if (stateCount != 0)
+                {
+                    foreach (KeyValuePair<string, List<PersonsDetails>> item in State)
+                    {
+                        Console.WriteLine("\n Following are the Person details residing in the state -" + item.Key);
+                        foreach (var items in item.Value)
+                        {
+                            //Printing added details
+                            Console.WriteLine("First Name : " + items.FirstName);
+                            Console.WriteLine("Last Name : " + items.LastName);
+                            Console.WriteLine("Address : " + items.Address);
+                            Console.WriteLine("Phone Number : " + items.PhoneNo);
+                            Console.WriteLine("Email ID : " + items.Email);
+                            Console.WriteLine("City : " + items.City);
+                            Console.WriteLine("State : " + items.State);
+                            Console.WriteLine("ZIP code : " + items.ZipCode);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nCurrently no entries are inserted.");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("\nWrong entry, Please choose between 1 and 2");
+            }
+        }
     }
 }
+
+
+
