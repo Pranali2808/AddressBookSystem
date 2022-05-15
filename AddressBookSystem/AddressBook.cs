@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Json.Net;
 
 namespace AddressBookSystem
 {
@@ -69,14 +70,13 @@ namespace AddressBookSystem
             }
         }
 
-        public static void CsvSerialise()
+        public static void JSONSerialise()
         {
             try
             {
-                string csvPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\DataOperation.csv";
-                var writer = File.AppendText(csvPath);
+                string jsonPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\JSONFile.json";
 
-
+                var writer = File.AppendText(jsonPath);
                 foreach (KeyValuePair<string, List<PersonsDetails>> item in addressBook)
                 {
                     foreach (var items in item.Value)
@@ -92,22 +92,30 @@ namespace AddressBookSystem
                 Console.WriteLine(ex);
             }
         }
-
-        public static void CsvDeserialise()
+        public static void JSONDeserialise()
         {
-            string csvPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\DataOperation.csv";
-            using (var reader = new StreamReader(csvPath))
+            string jsonPath = @"D:\Projects\AddressBookSystem\AddressBookSystem\Files\JSONFile.json";
+            using (var reader = new StreamReader(jsonPath))
 
             {
                 string s = " ";
                 while ((s = reader.ReadLine()) != null)
                 {
-                    Console.WriteLine(s);
+                    {
+                        Console.WriteLine(s);
+                    }
                 }
             }
         }
     }
-}
+}  
+
+    
+
+
+
+
+        
 
 
 

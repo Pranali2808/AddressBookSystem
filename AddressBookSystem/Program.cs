@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace AddressBookSystem
 {
-    /* UC14 :- Ability to Read or Write the Address Book with Persons Contact as Csv File
-               - Use OpenCSV Library
+    /* UC15 :- Ability to Read or Write the Address Book with Persons Contact as JSON File
+               - Use GSON Library
      */
     class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("*********** Address Book Program ************\n");
-
+            AddressBook json = new AddressBook();
             Console.Write("Enter Number of Address Book you want : ");
             int numBook = Convert.ToInt32(Console.ReadLine());
             int numberBook = 0;
@@ -47,11 +47,12 @@ namespace AddressBookSystem
                     key = Convert.ToInt32(Console.ReadLine());
                 }
                 AddressBook.AddTo(book);
-                AddressBook.CsvSerialise();
-                AddressBook.CsvDeserialise();
+                AddressBook.JSONSerialise();
+                AddressBook.JSONDeserialise();
                 numberBook++;
+                Console.ReadLine();
+                
             }
         }
-
     }
 }
