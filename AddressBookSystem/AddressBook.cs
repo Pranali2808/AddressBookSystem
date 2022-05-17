@@ -347,6 +347,56 @@ namespace AddressBookSystem
                 connection.Close();
             }
         }
+        public void GetCityCountDB(string query)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                using (connection = new SqlConnection(connectionstring))
+                {
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    adapter.Fill(dataSet);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Console.WriteLine(dataRow["City"] + ", " + dataRow["CityCount"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void GetStateCountDB(string query)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                using (connection = new SqlConnection(connectionstring))
+                {
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    adapter.Fill(dataSet);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Console.WriteLine(dataRow["State"] + ", " + dataRow["StateCount"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
 
