@@ -17,7 +17,8 @@ namespace AddressBookSystem
             Console.WriteLine("Please choose an option or choose 0 for Exit\n:");
             Console.WriteLine("1: View Contact \n2: Add New Contact(s) \n3: Edit Contact \n4: Delete Contact " +
                 "\n5: Add Multiple Addressbook\n6: Find person in city/state\n7: View person in city/state\n8: Count by city/state\n" +
-                "9: Sort Contact List\n10: Retrieve from Database\n11: Update contact in database\n12:get data from particular period range\n13:get no of contact by city or state");
+                "9: Sort Contact List\n10: Retrieve from Database\n11: Update contact in database\n12:get data from particular period range\n13:get no of contact by city or state\n"+
+                "14.Add new contact in database");
            
             int option = Convert.ToInt32(Console.ReadLine());
             switch (option)
@@ -88,6 +89,20 @@ namespace AddressBookSystem
                     addressBook.GetCityCountDB(queryCity);
                     Console.WriteLine("Displaying contacts by State");
                     addressBook.GetStateCountDB(queryState);
+                    break;
+                case 14:
+                    PersonsDetails addNew = new PersonsDetails()
+                    {
+                        FirstName = "Riya",
+                        LastName = "Patel",
+                        City = "Pune",
+                        Address = "Chandan Nagar",
+                        State = "Maharashtranagar",
+                        ZipCode = 4523456,
+                        PhoneNumber = 9786567865,
+                        Email = "riyapatel@gmail.com"
+                    };
+                    addressBook.AddContactToDB(addNew);
                     break;
                 case 0:
                     Environment.Exit(0);
