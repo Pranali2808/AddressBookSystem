@@ -310,6 +310,43 @@ namespace AddressBookSystem
                 connection.Close();
             }
         }
+        //Method To Update Contact details on DB
+        public PersonsDetails UpdateContactInDB(PersonsDetails obj)
+        {
+            try
+            {
+                connection = new SqlConnection(connectionstring);
+                SqlCommand command = new SqlCommand("spUpdateContacts", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@FirstName", obj.FirstName);
+                command.Parameters.AddWithValue("@City", obj.City);
+                command.Parameters.AddWithValue("@Zip", obj.ZipCode);
+
+                connection.Open();
+                var result = command.ExecuteNonQuery();
+                if (result != 0)
+                {
+                    Console.WriteLine("Contact details updated successfully");
+                    return obj;
+                }
+                else
+                {
+                    Console.WriteLine("Failed to update Contact details");
+                    return default;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return default;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
 

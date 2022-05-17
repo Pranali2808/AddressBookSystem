@@ -49,3 +49,13 @@ values('Amol','Firake','Nehru Chowk','Jamner','Maharashtra',472067,8765432990,'a
 ('Amol','Firake','Nehru Chowk','Jamner','Maharashtra',472067,8765432990,'amol@gmail.com','Family');
 
 select * from AddressBook;
+--//Update Contact details on DB//------------------------------------------------
+create procedure spUpdateContacts
+(
+@FirstName varchar(100),
+@City varchar(100),
+@Zip  bigint
+)
+as
+update AddressBook set City=@City where FirstName=@FirstName;
+update AddressBook set Zip=@Zip where FirstName=@FirstName;
