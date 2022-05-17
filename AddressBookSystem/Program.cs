@@ -6,53 +6,87 @@ using System.Threading.Tasks;
 
 namespace AddressBookSystem
 {
-    /* UC15 :- Ability to Read or Write the Address Book with Persons Contact as JSON File
-               - Use GSON Library
-     */
+
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("*********** Address Book Program ************\n");
-            AddressBook json = new AddressBook();
-            Console.Write("Enter Number of Address Book you want : ");
-            int numBook = Convert.ToInt32(Console.ReadLine());
-            int numberBook = 0;
-            int key = 1;
-            while (numberBook < numBook)
-            {
-                Console.Write("\n Enter name of Address Book : ");
-                string book = Console.ReadLine();
-                Console.WriteLine("\n Select the below option");
-                Console.WriteLine("1.Add Contact Details \n2.View Contact Detials");
-                Console.Write("Enter Your Choice : ");
-                int num = Convert.ToInt32(Console.ReadLine());
 
-                while (key != 0)
-                {
-                    switch (num)
-                    {
-                        case 1:
-                            AddressBook.AddContact();
-                            break;
-                        case 2:
-                            AddressBook.Details();
-                            break;
-                        default:
-                            Console.Write("Choice correct option : ");
-                            num = Convert.ToInt32(Console.ReadLine());
-                            break;
-                    }
-                    Console.Write("\n Do you wish to continue press 1 or press 0 for exit: ");
-                    key = Convert.ToInt32(Console.ReadLine());
-                }
-                AddressBook.AddTo(book);
-                AddressBook.JSONSerialise();
-                AddressBook.JSONDeserialise();
-                numberBook++;
-                Console.ReadLine();
-                
+            Console.WriteLine("*********** Address Book Program ************\n");
+            AddressBook addressBook = new AddressBook();
+            Console.WriteLine("Please choose an option or choose 0 for Exit\n:");
+            Console.WriteLine("1: View Contact \n2: Add New Contact(s) \n3: Edit Contact \n4: Delete Contact " +
+                "\n5: Add Multiple Addressbook\n6: Find person in city/state\n7: View person in city/state\n8: Count by city/state\n" +
+                "9: Sort Contact List\n10: Retrieve from Database");
+            int option = Convert.ToInt32(Console.ReadLine());
+            switch (option)
+            {
+                case 1:
+                    addressBook.ViewContact();
+                    break;
+                case 2:
+                    addressBook.AddNewContact();
+                    addressBook.ViewContact();
+                    break;
+                case 3:
+                    Console.WriteLine("\nEnter First name to edit it's contact details");
+                    string input = Console.ReadLine();
+                    addressBook.EditContact(input);
+                    addressBook.ViewContact();
+                    break;
+                case 4:
+                    Console.WriteLine("\nEnter First name to delete it's contact details");
+                    string fName = Console.ReadLine();
+                    Console.WriteLine("Enter last name to delete it's contact details");
+                    string lName = Console.ReadLine();
+                    addressBook.DeleteContact(fName, lName);
+                    addressBook.ViewContact();
+                    break;
+                case 5:
+                    addressBook.AddNewAddressBook();
+                    addressBook.ViewContact();
+                    break;
+                case 6:
+                    addressBook.SearchPersonInCityOrState();
+                    break;
+                case 7:
+                    addressBook.ViewPersonInCityOrState();
+                    break;
+                case 8:
+                    addressBook.AddNewAddressBook();
+                    addressBook.CountByCityOrState();
+                    break;
+                case 9:
+                    addressBook.AddNewAddressBook();
+                    addressBook.ViewAddressBook();
+                    Console.WriteLine("After sorting:");
+                    addressBook.SortPersonName();
+                    break;
+                case 10:
+                    string query = "select * from AddressBook";
+                    addressBook.GetEntriesFromDB(query);
+                    break;
+                case 0:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Invalid Input!");
+                    break;
+                  
             }
+            Console.ReadLine();
         }
+
     }
 }
+           
+           
+                      
+            
+                   
+    
+
+
+
+
+

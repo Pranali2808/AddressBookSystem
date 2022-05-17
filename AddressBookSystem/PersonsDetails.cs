@@ -13,8 +13,12 @@ namespace AddressBookSystem
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string ZipCode { get; set; }
-        public string PhoneNumber { get; set; }
+        public int ZipCode { get; set; }
+        public long PhoneNumber { get; set; }
         public string Email { get; set; }
+        public override string ToString()
+        {
+            return $"firstname:{FirstName} lastname:{LastName} address:{Address} city:{City} state:{State} zipcode:{ZipCode} phone:{PhoneNumber} email:{Email}";
+        }
     }
 }
